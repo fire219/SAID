@@ -5,6 +5,8 @@ SAID is a basic way to turn an Arduino wired with switches and buttons into a ga
 
 NOTE: SAID is Windows only right now, due to use of hooks into the Windows API.
 
+NOTE FOR THIS INITIAL VERSION OF SAID:
+ONLY THE BASIC CARDINAL DIRECTIONS OF THE JOYSTICK CURRENTLY FUNCTION
 ______________________________
 How to use SAID out of the box
 ______________________________

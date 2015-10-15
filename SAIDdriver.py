@@ -11,6 +11,9 @@ The keyboard emulation code used in SAID is shamelessly ripped from StackOverflo
 Credit and lots of love to user "Noctis Skytower" for this glorious hunk of code
 http://stackoverflow.com/a/11910555
 
+NOTE FOR THIS INITIAL VERSION OF SAID
+ONLY THE BASIC CARDINAL DIRECTIONS OF THE JOYSTICK CURRENTLY FUNCTION
+
 """
 
 import serial
