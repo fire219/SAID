@@ -1,0 +1,75 @@
+SAID
+Serial Arduino Input Device
+
+SAID is a basic way to turn an Arduino wired with switches and buttons into a gamepad or digital joystick.
+
+NOTE: SAID is Windows only right now, due to use of hooks into the Windows API.
+
+______________________________
+How to use SAID out of the box
+______________________________
+
+In it's preconfigured setup of a 4-switch digital joystick with a trigger, connect each switch to ground and the other end to:
+
+Down - pin 7
+Up - pin 6
+Left - pin 4
+Right - pin 5
+Trigger - pin 3
+
+Load the Arduino with the sketch.
+
+Change the COM port in the Python script.
+
+Start the Python script.
+
+If all went right, your SAID powered joystick should be working and ready for action.
+
+______________________________
+Explanation of Serial Protocol
+______________________________
+
+SAID sends the input data over a virtual serial port to the host PC. 
+
+Since a serial connection is not always reliable, this protocol was 
+
+developed to use as little data as possible per event.
+
+Data is encoded into two character strings of numbers, followed by the 
+
+"\r\n" EOL sequence. 
+
+Each individual input is assigned a number. For a 4-switch joystick plus 
+
+trigger, these numbers are:
+
+up ------ 1
+down ---- 7
+left ---- 11
+right --- 15
+trigger - 19
+
+For multiple inputs at once, the numbers of the individual events are 
+
+added, as such:
+
+up + trigger ----- 20
+down + trigger --- 26
+left + trigger --- 30
+right + trigger -- 34
+upper left ------- 12
+upper right ------ 16
+lower left ------- 18
+lower right ------ 22
+UL + trigger ----- 31
+UR + trigger ----- 35
+DL + trigger ----- 37
+DR + trigger ----- 41
+
+As you can see, the individual numbers were chosen so that no two events 
+
+can have the same number.
+
+These numbers are padded with a leading zero if needed to make it two-
+
+digits. The data is then sent over serial to the computer.
