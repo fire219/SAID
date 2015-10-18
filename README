@@ -5,16 +5,15 @@ SAID is a basic way to turn an Arduino wired with switches and buttons into a ga
 
 NOTE: SAID is Windows only right now, due to use of hooks into the Windows API.
 
-NOTE FOR THIS INITIAL VERSION OF SAID:
-ONLY THE BASIC CARDINAL DIRECTIONS OF THE JOYSTICK CURRENTLY FUNCTION
+
 ______________________________
 How to use SAID out of the box
 ______________________________
 
 In it's preconfigured setup of a 4-switch digital joystick with a trigger, connect each switch to ground and the other end to:
 
-Down - pin 7
-Up - pin 6
+Down - pin 6
+Up - pin 7
 Left - pin 4
 Right - pin 5
 Trigger - pin 3
@@ -75,3 +74,16 @@ can have the same number.
 These numbers are padded with a leading zero if needed to make it two-
 
 digits. The data is then sent over serial to the computer.
+
+_________
+Changelog
+_________
+
+v1.3 -- October 18, 2015
+
+-Reassigned pins and serial values to be more consistent
+-Added Cardinal direction + trigger actions to driver
+
+v1.0 -- October 14, 2015
+
+-Initial Public Release

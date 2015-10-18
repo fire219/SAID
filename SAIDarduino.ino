@@ -1,15 +1,14 @@
 /*
 SAID -- Serial Arduino Input Device
 ---------------------------------
-Arduino section
+Arduino section - v1.3
 
 Reads inputs from joystick microswitches and sends the data out over serial as a two digit number. See "SAIDprotocol.txt" or the README
 for more information on the data sent over serial.
  */
 
 
-// Pin numbers for each switch
-// NOTE THAT THE NAMES ARE ACTUALLY WRONG RIGHT NOW. WILL BE FIXED LATER
+
 const int down = 6; 
 const int up = 7;
 const int left = 4;
@@ -35,13 +34,13 @@ void loop() {
     output = 1 + output;
   } 
   if (digitalRead(right) == LOW) {
-    output = 7 + output;
+    output = 15 + output;
   } 
   if (digitalRead(down) == LOW) {
-    output = 11 + output;
+    output = 7 + output;
   }
   if (digitalRead(left) == LOW) {
-    output = 15 + output;
+    output = 11 + output;
   } 
   if (digitalRead(trigger) == LOW) {
     output = 19 + output;
@@ -49,11 +48,11 @@ void loop() {
   if (output < 10) { //If final input tallies to a single digit number, add a leading zero.
     addzero = 1;
   }
-  if (output > 0) {
-    if (addzero == 0) {
+  //if (output > 0) {
+  if (addzero == 0) {
       Serial.println(output);
     }
-    if (addzero == 1) {
+  if (addzero == 1) {
       Serial.print("0");
       Serial.println(output);
 
@@ -61,5 +60,5 @@ void loop() {
     output = 0; 
     addzero = 0;
 
-  } 
+  //} 
 }

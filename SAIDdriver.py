@@ -11,8 +11,7 @@ The keyboard emulation code used in SAID is shamelessly ripped from StackOverflo
 Credit and lots of love to user "Noctis Skytower" for this glorious hunk of code
 http://stackoverflow.com/a/11910555
 
-NOTE FOR THIS INITIAL VERSION OF SAID
-ONLY THE BASIC CARDINAL DIRECTIONS OF THE JOYSTICK CURRENTLY FUNCTION
+
 
 """
 
@@ -308,7 +307,7 @@ def Hardware(message, parameter=0):
 
 print("SAID -- Serial Arduino Input Device")
 print("-----------------------------------")
-print("Driver version 1.0")	
+print("Driver version 1.3")	
 print("")
 
 
@@ -334,7 +333,19 @@ prevup = 0
 prevdown = 0
 prevleft = 0
 prevright = 0
-
+prevtrigger = 0
+prevUT = 0
+prevDT = 0
+prevLT = 0
+prevRT = 0
+prevUL = 0
+prevUR = 0
+prevLL = 0
+prevLR = 0
+prevULT = 0
+prevURT = 0
+prevLLT = 0
+prevLRT = 0
 
 
 
@@ -344,56 +355,137 @@ while True:
 	if (input != ""):
 		if (input != "\n"):              # Do a bit of cleaning to the data before parsing and printing it
 			cinput = input.strip("\n")
-			cinput = cinput.strip("\r")			
-			print(cinput)
+			cinput = cinput.strip("\r")	
 
-	if (cinput == "11"):
+	if (cinput == "00"): #Arduino sent a zero-input packet, so cancel all movements
+		#SendInput(Keyboard(KEY_W, KEYEVENTF_KEYUP))	
+		SendInput(Keyboard(VK_UP, KEYEVENTF_KEYUP))	
+		#SendInput(Keyboard(KEY_S, KEYEVENTF_KEYUP))	
+		SendInput(Keyboard(VK_DOWN, KEYEVENTF_KEYUP))			
+		#SendInput(Keyboard(KEY_A, KEYEVENTF_KEYUP))	
+		SendInput(Keyboard(VK_LEFT, KEYEVENTF_KEYUP))
+		#SendInput(Keyboard(KEY_D, KEYEVENTF_KEYUP))	
+		SendInput(Keyboard(VK_RIGHT, KEYEVENTF_KEYUP))				
+		SendInput(Keyboard(VK_SPACE, KEYEVENTF_KEYUP))		
+		
+	if (cinput == "01"):
 		if (prevup == 0):
-			#                                  The input code for using WASD controls instead of arrow keys are already here, just commented out. 
 			#SendInput(Keyboard(KEY_W))                      
 			SendInput(Keyboard(VK_UP))
 			prevup = 1
+			print("Up pressed")
 	else:
-		#SendInput(Keyboard(KEY_W, KEYEVENTF_KEYUP))	
-		SendInput(Keyboard(VK_UP, KEYEVENTF_KEYUP))	
-		prevup = 0	
-	
+		if (prevup == 1):
+			#SendInput(Keyboard(KEY_W, KEYEVENTF_KEYUP))	
+			SendInput(Keyboard(VK_UP, KEYEVENTF_KEYUP))	
+			prevup = 0	
+			print("Up released")
 
 	
-	if (cinput == "01"):
+	if (cinput == "07"):
 		if (prevdown == 0):
 			#SendInput(Keyboard(KEY_S))
 			SendInput(Keyboard(VK_DOWN))
-			prevdown = 1	
+			prevdown = 1
+			print("Down pressed")		
 	else:
-		#SendInput(Keyboard(KEY_S, KEYEVENTF_KEYUP))	
-		SendInput(Keyboard(VK_DOWN, KEYEVENTF_KEYUP))
-		prevdown = 0
-	
+		if (prevdown == 1):
+			#SendInput(Keyboard(KEY_S, KEYEVENTF_KEYUP))	
+			SendInput(Keyboard(VK_DOWN, KEYEVENTF_KEYUP))
+			prevdown = 0
+			print("Down released")
 
 	
-	if (cinput == "15"):
+	if (cinput == "11"):
 		if (prevleft == 0):	
 			#SendInput(Keyboard(KEY_A))
 			SendInput(Keyboard(VK_LEFT))	
-			prevleft = 1		
+			prevleft = 1
+			print("Left pressed")	
 	else:
-		#SendInput(Keyboard(KEY_A, KEYEVENTF_KEYUP))	
-		SendInput(Keyboard(VK_LEFT, KEYEVENTF_KEYUP))
-		prevleft = 0
+		if (prevleft == 1):	
+			#SendInput(Keyboard(KEY_A, KEYEVENTF_KEYUP))	
+			SendInput(Keyboard(VK_LEFT, KEYEVENTF_KEYUP))
+			prevleft = 0
+			print("Left released")
 		
 		
-		
-	if (cinput == "07"):
+	if (cinput == "15"):
 		if (prevright == 0):
 			#SendInput(Keyboard(KEY_D))
 			SendInput(Keyboard(VK_RIGHT))
-			prevright = 1	
+			prevright = 1
+			print("Right pressed")	
 	else:
-		#SendInput(Keyboard(KEY_D, KEYEVENTF_KEYUP))	
-		SendInput(Keyboard(VK_RIGHT, KEYEVENTF_KEYUP))	
-		prevright = 0
-		
+		if (prevright == 1):
+			#SendInput(Keyboard(KEY_D, KEYEVENTF_KEYUP))	
+			SendInput(Keyboard(VK_RIGHT, KEYEVENTF_KEYUP))	
+			prevright = 0
+			print("Right released")
+
+	if (cinput == "19"):
+		if (prevtrigger == 0):
+			SendInput(Keyboard(VK_SPACE))
+			prevtrigger = 1
+			print("Trigger pressed")	
+	else:
+		if (prevtrigger == 1):	
+			SendInput(Keyboard(VK_SPACE, KEYEVENTF_KEYUP))	
+			prevtrigger = 0
+			print("Trigger released")
+
+	if (cinput == "20"):
+		if (prevUT == 0):
+			SendInput(Keyboard(VK_UP))
+			SendInput(Keyboard(VK_SPACE))			
+			prevUT = 1
+			print("Up + Trigger pressed")	
+	else:
+		if (prevUT == 1):	
+			SendInput(Keyboard(VK_UP, KEYEVENTF_KEYUP))
+			SendInput(Keyboard(VK_SPACE, KEYEVENTF_KEYUP))	
+			prevUT = 0
+			print("Up + Trigger released")		
+
+	if (cinput == "26"):
+		if (prevDT == 0):
+			SendInput(Keyboard(VK_DOWN))
+			SendInput(Keyboard(VK_SPACE))			
+			prevDT = 1
+ 			print("Down + Trigger pressed")	
+	else:
+		if (prevDT == 1):	
+			SendInput(Keyboard(VK_DOWN, KEYEVENTF_KEYUP))
+			SendInput(Keyboard(VK_SPACE, KEYEVENTF_KEYUP))	
+			prevDT = 0
+			print("Down + Trigger released")	
+
+	if (cinput == "30"):
+		if (prevLT == 0):
+			SendInput(Keyboard(VK_LEFT))
+			SendInput(Keyboard(VK_SPACE))			
+			prevLT = 1
+			print("Left + Trigger pressed")	
+	else:
+		if (prevLT == 1):	
+			SendInput(Keyboard(VK_LEFT, KEYEVENTF_KEYUP))
+			SendInput(Keyboard(VK_SPACE, KEYEVENTF_KEYUP))	
+			prevLT = 0
+			print("Left + Trigger released")		
+
+	if (cinput == "34"):
+		if (prevRT == 0): 
+			SendInput(Keyboard(VK_RIGHT))
+			SendInput(Keyboard(VK_SPACE))			
+			prevRT = 1
+			print("Right + Trigger pressed")	
+	else:
+		if (prevRT == 1):	
+			SendInput(Keyboard(VK_RIGHT, KEYEVENTF_KEYUP))
+			SendInput(Keyboard(VK_SPACE, KEYEVENTF_KEYUP))	
+			prevRT = 0
+			print("Right + Trigger released")		
+			
 	time.sleep(0.001) #This script will use a large chunk of your CPU otherwise. Human input isn't *that* fast, anyway.
 		
 
